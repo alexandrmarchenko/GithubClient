@@ -8,6 +8,7 @@ import com.geekbrains.githubclient.mvp.model.entity.GithubUserRepo;
 import com.geekbrains.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.geekbrains.githubclient.mvp.view.UserItemView;
 import com.geekbrains.githubclient.mvp.view.UsersView;
+import com.geekbrains.githubclient.navigation.Screens;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
             if (VERBOSE) {
                 Log.v(TAG, " onItemClick " + view.getPos());
             }
+            GithubUser user = mUsers.get(view.getPos());
+            mRouter.navigateTo(new Screens.UserInfoScreen(user));
         }
 
         @Override
