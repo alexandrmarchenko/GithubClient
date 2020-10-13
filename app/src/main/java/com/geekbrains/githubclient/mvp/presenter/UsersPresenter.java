@@ -64,8 +64,11 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
     }
 
     private void loadData() {
-        List<GithubUser> users = mUsersRepo.getUsers();
-        mUserListPresenter.mUsers.addAll(users);
+        mUsersRepo.getUsers().subscribe(githubUser ->
+                mUserListPresenter.mUsers.add(githubUser)
+        );
+//        List<GithubUser> users = mUsersRepo.getUsers();
+//        mUserListPresenter.mUsers.addAll(users);
         getViewState().updateList();
     }
 
