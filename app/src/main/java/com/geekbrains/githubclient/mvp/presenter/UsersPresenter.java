@@ -3,8 +3,11 @@ package com.geekbrains.githubclient.mvp.presenter;
 import android.util.Log;
 
 import com.geekbrains.githubclient.GithubApplication;
+import com.geekbrains.githubclient.mvp.model.Model;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUserRepo;
+import com.geekbrains.githubclient.mvp.model.repo.IGithubUsersRepo;
+import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
 import com.geekbrains.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.geekbrains.githubclient.mvp.view.UserItemView;
 import com.geekbrains.githubclient.mvp.view.UsersView;
@@ -13,6 +16,7 @@ import com.geekbrains.githubclient.navigation.Screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Scheduler;
 import moxy.MvpPresenter;
 import ru.terrakok.cicerone.Router;
 
@@ -21,8 +25,15 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
 
     private static final boolean VERBOSE = true;
 
-    private GithubUserRepo mUsersRepo = new GithubUserRepo();
-    private Router mRouter = GithubApplication.INSTANCE.getRouter();
+    private final IGithubUsersRepo mUsersRepo;
+    private final Router mRouter;
+    private final Scheduler mScheduler;
+
+    public UsersPresenter(Scheduler scheduler, IGithubUsersRepo usersRepo, Router router) {
+        mScheduler = scheduler;
+        mUsersRepo = usersRepo;
+        mRouter = router;
+    }
 
     private class UsersListPresenter implements IUserListPresenter {
         private List<GithubUser> mUsers = new ArrayList<>();
@@ -41,6 +52,7 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
         public void bindView(UserItemView view) {
             GithubUser user = mUsers.get(view.getPos());
             view.setLogin(user.getLogin());
+            view.loadAvatar(user.getAvatarUrl());
         }
 
         @Override
@@ -64,12 +76,19 @@ public class UsersPresenter extends MvpPresenter<UsersView> {
     }
 
     private void loadData() {
-        mUsersRepo.getUsers().subscribe(githubUser ->
-                mUserListPresenter.mUsers.add(githubUser)
-        );
+//        mUsersRepo.getUsers().subscribe(githubUser ->
+//                mUserListPresenter.mUsers.add(githubUser)
+//        );
 //        List<GithubUser> users = mUsersRepo.getUsers();
 //        mUserListPresenter.mUsers.addAll(users);
-        getViewState().updateList();
+//        getViewState().updateList();
+        mUsersRepo.getUsers().observeOn(mScheduler).subscribe(repos -> {
+            mUserListPresenter.mUsers.clear();
+            mUserListPresenter.mUsers.addAll(repos);
+            getViewState().updateList();
+        }, (e) -> {
+            Log.w(TAG, "Error" + e.getMessage());
+        });
     }
 
     public boolean backPressed() {

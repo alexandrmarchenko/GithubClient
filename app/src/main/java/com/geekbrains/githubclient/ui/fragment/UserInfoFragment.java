@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.databinding.FragmentUserInfoBinding;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.presenter.UserInfoPresenter;
@@ -17,6 +18,7 @@ import com.geekbrains.githubclient.ui.BackButtonListener;
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
+import ru.terrakok.cicerone.Router;
 
 public class UserInfoFragment extends MvpAppCompatFragment implements UserInfoView, BackButtonListener {
 
@@ -33,8 +35,9 @@ public class UserInfoFragment extends MvpAppCompatFragment implements UserInfoVi
     @ProvidePresenter
     UserInfoPresenter provideUserInfoPresenter() {
         GithubUser mGithubUser = getArguments().getParcelable(ARG_PARAM1);
+        Router router = GithubApplication.INSTANCE.getRouter();
 
-        return new UserInfoPresenter(mGithubUser);
+        return new UserInfoPresenter(mGithubUser, router);
     }
 
     public static UserInfoFragment newInstance(GithubUser githubUser) {
