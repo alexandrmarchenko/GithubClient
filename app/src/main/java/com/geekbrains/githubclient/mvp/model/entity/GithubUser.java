@@ -6,10 +6,14 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 
 public class GithubUser implements Parcelable {
-    @Expose String id;
-    @Expose String login;
-    @Expose String avatarUrl;
-    @Expose String reposUrl;
+    @Expose
+    String id;
+    @Expose
+    String login;
+    @Expose
+    String avatarUrl;
+    @Expose
+    String reposUrl;
 
     public GithubUser(String login) {
         login = login;

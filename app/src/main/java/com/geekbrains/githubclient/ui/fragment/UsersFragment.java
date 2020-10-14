@@ -14,7 +14,6 @@ import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.R;
 import com.geekbrains.githubclient.mvp.model.repo.IGithubUsersRepo;
 import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
-import com.geekbrains.githubclient.mvp.presenter.MainPresenter;
 import com.geekbrains.githubclient.mvp.presenter.UsersPresenter;
 import com.geekbrains.githubclient.mvp.view.UsersView;
 import com.geekbrains.githubclient.ui.BackButtonListener;
@@ -49,7 +48,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_users, container, false);
 
-        mRecyclerView = (RecyclerView)mView.findViewById(R.id.rv_users);
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.rv_users);
 
         return mView;
     }

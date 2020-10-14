@@ -2,7 +2,6 @@ package com.geekbrains.githubclient.mvp.model.entity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;

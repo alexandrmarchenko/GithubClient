@@ -63,8 +63,8 @@ public class UserRVAdapter extends RecyclerView.Adapter<UserRVAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textView = (TextView)itemView.findViewById(R.id.tv_login);
-            avatarView = (ImageView)itemView.findViewById(R.id.iv_avatar);
+            textView = (TextView) itemView.findViewById(R.id.tv_login);
+            avatarView = (ImageView) itemView.findViewById(R.id.iv_avatar);
         }
 
         @Override

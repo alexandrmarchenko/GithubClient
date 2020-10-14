@@ -27,7 +27,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @ProvidePresenter
     MainPresenter provideMainPresenter() {
-        Router router = ((GithubApplication)GithubApplication.getAppContext()).getRouter();
+        Router router = ((GithubApplication) GithubApplication.getAppContext()).getRouter();
 
         return new MainPresenter(router);
     }
@@ -56,7 +56,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
         super.onBackPressed();
 
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof BackButtonListener && ((BackButtonListener)fragment).backPressed()) {
+            if (fragment instanceof BackButtonListener && ((BackButtonListener) fragment).backPressed()) {
                 return;
             }
         }

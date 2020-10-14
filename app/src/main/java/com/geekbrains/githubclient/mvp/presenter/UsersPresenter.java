@@ -2,12 +2,8 @@ package com.geekbrains.githubclient.mvp.presenter;
 
 import android.util.Log;
 
-import com.geekbrains.githubclient.GithubApplication;
-import com.geekbrains.githubclient.mvp.model.Model;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
-import com.geekbrains.githubclient.mvp.model.entity.GithubUserRepo;
 import com.geekbrains.githubclient.mvp.model.repo.IGithubUsersRepo;
-import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
 import com.geekbrains.githubclient.mvp.presenter.list.IUserListPresenter;
 import com.geekbrains.githubclient.mvp.view.UserItemView;
 import com.geekbrains.githubclient.mvp.view.UsersView;
