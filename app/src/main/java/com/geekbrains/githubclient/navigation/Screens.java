@@ -2,7 +2,9 @@ package com.geekbrains.githubclient.navigation;
 
 import androidx.fragment.app.Fragment;
 
+import com.geekbrains.githubclient.mvp.model.entity.GithubRepo;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
+import com.geekbrains.githubclient.ui.fragment.RepoInfoFragment;
 import com.geekbrains.githubclient.ui.fragment.UserInfoFragment;
 import com.geekbrains.githubclient.ui.fragment.UsersFragment;
 
@@ -28,6 +30,21 @@ public class Screens {
         @Override
         public Fragment getFragment() {
             return UserInfoFragment.newInstance(githubUser);
+        }
+
+    }
+
+    public static class RepoInfoScreen extends SupportAppScreen {
+
+        private GithubRepo githubRepo;
+
+        public RepoInfoScreen(GithubRepo githubRepo) {
+            this.githubRepo = githubRepo;
+        }
+
+        @Override
+        public Fragment getFragment() {
+            return RepoInfoFragment.newInstance(githubRepo);
         }
 
     }

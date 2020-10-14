@@ -8,4 +8,5 @@ import moxy.viewstate.strategy.alias.AddToEndSingle;
 @AddToEndSingle
 public interface UserInfoView extends MvpView {
     void init(GithubUser githubUser);
+    void updateList();
 }
