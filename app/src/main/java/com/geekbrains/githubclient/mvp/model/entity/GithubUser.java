@@ -27,6 +27,10 @@ public class GithubUser implements Parcelable {
         return avatarUrl;
     }
 
+    public String getReposUrl() {
+        return reposUrl;
+    }
+
     public void setLogin(String login) {
         login = login;
     }
