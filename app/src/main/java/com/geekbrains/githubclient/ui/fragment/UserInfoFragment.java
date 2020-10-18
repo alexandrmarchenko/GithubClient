@@ -15,14 +15,11 @@ import com.geekbrains.githubclient.R;
 import com.geekbrains.githubclient.databinding.FragmentUserInfoBinding;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.model.repo.IGithubRepos;
-import com.geekbrains.githubclient.mvp.model.repo.IGithubUsersRepo;
 import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubRepos;
-import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
 import com.geekbrains.githubclient.mvp.presenter.UserInfoPresenter;
 import com.geekbrains.githubclient.mvp.view.UserInfoView;
 import com.geekbrains.githubclient.ui.BackButtonListener;
 import com.geekbrains.githubclient.ui.adapter.RepoRVAdapter;
-import com.geekbrains.githubclient.ui.adapter.UserRVAdapter;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import moxy.MvpAppCompatFragment;

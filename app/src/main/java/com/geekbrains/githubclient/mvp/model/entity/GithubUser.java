@@ -15,8 +15,22 @@ public class GithubUser implements Parcelable {
     @Expose
     String reposUrl;
 
-    public GithubUser(String login) {
-        login = login;
+    public GithubUser(String id, String login, String avatar, String repoUrl) {
+        this.id = id;
+        this.login = login;
+        this.avatarUrl = avatar;
+        this.reposUrl = repoUrl;
+    }
+
+    protected GithubUser(Parcel in) {
+        this.id = in.readString();
+        this.login = in.readString();
+        this.avatarUrl = in.readString();
+        this.reposUrl = in.readString();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -42,14 +56,17 @@ public class GithubUser implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeString(login);
+        parcel.writeString(avatarUrl);
+        parcel.writeString(reposUrl);
     }
 
     public static final Creator<GithubUser> CREATOR = new Creator<GithubUser>() {
 
         @Override
         public GithubUser createFromParcel(Parcel parcel) {
-            return new GithubUser(parcel.readString());
+            return new GithubUser(parcel);
         }
 
         @Override

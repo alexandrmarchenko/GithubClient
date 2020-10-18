@@ -10,6 +10,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 public class GithubApplication extends Application {
+    public static final boolean DEBUG = true;
     public static GithubApplication INSTANCE;
     private Cicerone<Router> mCicerone;
 
