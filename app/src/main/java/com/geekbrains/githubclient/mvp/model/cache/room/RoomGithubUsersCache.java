@@ -1,5 +1,7 @@
 package com.geekbrains.githubclient.mvp.model.cache.room;
 
+import android.util.Log;
+
 import com.geekbrains.githubclient.mvp.model.cache.IGithubUsersRepoCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.model.entity.room.Database;
@@ -12,7 +14,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 public class RoomGithubUsersCache implements IGithubUsersRepoCache {
-
+    private static final String TAG = RoomGithubUsersCache.class.getSimpleName();
     private Database db;
 
     public RoomGithubUsersCache(Database db) {
@@ -56,7 +58,7 @@ public class RoomGithubUsersCache implements IGithubUsersRepoCache {
     }
 
     public void subscribe(Observable<List<GithubUser>> obs) {
-        obs.subscribe((s) -> insertUsers(s));
+        obs.subscribe((s) -> insertUsers(s), (e) -> Log.e(TAG, "Subscribe on error"));
 
     }
 }
