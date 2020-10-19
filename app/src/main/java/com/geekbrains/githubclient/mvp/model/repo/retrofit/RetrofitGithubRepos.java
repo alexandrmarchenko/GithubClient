@@ -24,7 +24,7 @@ public class RetrofitGithubRepos implements IGithubRepos {
         this.api = api;
         this.networkStatus = status;
         this.cache = cache;
-        cache.subscribe(subject);
+        this.cache.subscribe(subject);
     }
 
     @Override
