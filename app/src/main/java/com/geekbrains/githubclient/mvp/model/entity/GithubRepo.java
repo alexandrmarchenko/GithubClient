@@ -11,18 +11,30 @@ public class GithubRepo implements Parcelable {
     @Expose
     String name;
     @Expose
-    String forks;
+    int forks;
+    @Expose
+    GithubUser owner;
 
-    public GithubRepo(String id, String name, String forks) {
+    public GithubRepo(String id, String name, int forks, GithubUser owner) {
         this.id = id;
         this.name = name;
         this.forks = forks;
+        this.owner = owner;
     }
 
     protected GithubRepo(Parcel in) {
         id = in.readString();
         name = in.readString();
-        forks = in.readString();
+        forks = in.readInt();
+        owner = in.readParcelable(GithubUser.class.getClassLoader());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public GithubUser getOwner() {
+        return owner;
     }
 
     public GithubRepo(String login) {
@@ -33,7 +45,7 @@ public class GithubRepo implements Parcelable {
         return name;
     }
 
-    public String getForks() {
+    public int getForks() {
         return forks;
     }
 
@@ -46,7 +58,8 @@ public class GithubRepo implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(name);
-        parcel.writeString(forks);
+        parcel.writeInt(forks);
+        parcel.writeParcelable(owner, i);
     }
 
     public static final Parcelable.Creator<GithubRepo> CREATOR = new Parcelable.Creator<GithubRepo>() {

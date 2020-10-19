@@ -13,13 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.R;
 import com.geekbrains.githubclient.databinding.FragmentUserInfoBinding;
+import com.geekbrains.githubclient.mvp.model.cache.room.RoomGithubReposCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
+import com.geekbrains.githubclient.mvp.model.entity.room.Database;
 import com.geekbrains.githubclient.mvp.model.repo.IGithubRepos;
 import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubRepos;
 import com.geekbrains.githubclient.mvp.presenter.UserInfoPresenter;
 import com.geekbrains.githubclient.mvp.view.UserInfoView;
 import com.geekbrains.githubclient.ui.BackButtonListener;
 import com.geekbrains.githubclient.ui.adapter.RepoRVAdapter;
+import com.geekbrains.githubclient.ui.network.AndroidNetworkStatus;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import moxy.MvpAppCompatFragment;
@@ -48,7 +51,9 @@ public class UserInfoFragment extends MvpAppCompatFragment implements UserInfoVi
     UserInfoPresenter provideUserInfoPresenter() {
         GithubUser mGithubUser = getArguments().getParcelable(ARG_PARAM1);
         Router router = GithubApplication.INSTANCE.getRouter();
-        IGithubRepos userRepos = new RetrofitGithubRepos((GithubApplication.INSTANCE).getApi());
+        IGithubRepos userRepos = new RetrofitGithubRepos((GithubApplication.INSTANCE).getApi(),
+                new AndroidNetworkStatus(),
+                new RoomGithubReposCache(Database.getInstance()));
 
         return new UserInfoPresenter(mGithubUser, router, userRepos, AndroidSchedulers.mainThread());
     }
@@ -95,7 +100,8 @@ public class UserInfoFragment extends MvpAppCompatFragment implements UserInfoVi
 
         mAdapter = new RepoRVAdapter(mPresenter.getPresenter());
         binding.rvRepos.setLayoutManager(mLayoutManager);
-        binding.rvRepos.setAdapter(mAdapter);;
+        binding.rvRepos.setAdapter(mAdapter);
+        ;
     }
 
     @Override
