@@ -23,7 +23,6 @@ public class RetrofitGithubUsersRepo implements IGithubUsersRepo {
         this.api = api;
         this.networkStatus = status;
         this.cache = cache;
-        this.cache.subscribe(subject);
     }
 
     @Override
@@ -31,15 +30,12 @@ public class RetrofitGithubUsersRepo implements IGithubUsersRepo {
         return networkStatus.isOnlineSingle().flatMap((isOnline) -> {
             if (isOnline) {
                 return api.getUsers().flatMap((users) -> {
-                    subject.onNext(users);
-                    return Single.fromCallable(() -> users);
+                    return cache.insertUsers(users).toSingleDefault(users);
                 });
 
             } else {
                 return cache.getUsers();
             }
         }).subscribeOn(Schedulers.io());
-
-        //return api.getUsers().subscribeOn(Schedulers.io());
     }
 }

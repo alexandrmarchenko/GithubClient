@@ -1,7 +1,5 @@
 package com.geekbrains.githubclient.mvp.model.cache.room;
 
-import android.util.Log;
-
 import com.geekbrains.githubclient.mvp.model.cache.IGithubUsersRepoCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.model.entity.room.Database;
@@ -10,7 +8,7 @@ import com.geekbrains.githubclient.mvp.model.entity.room.RoomGithubUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 public class RoomGithubUsersCache implements IGithubUsersRepoCache {
@@ -42,23 +40,21 @@ public class RoomGithubUsersCache implements IGithubUsersRepoCache {
     }
 
     @Override
-    public void insertUsers(List<GithubUser> githubUsers) {
-        List<RoomGithubUser> roomGithubUsers = new ArrayList<>();
+    public Completable insertUsers(List<GithubUser> githubUsers) {
+        return Completable.fromAction(() -> {
+            List<RoomGithubUser> roomGithubUsers = new ArrayList<>();
 
-        for (GithubUser user : githubUsers) {
-            RoomGithubUser roomUser = new RoomGithubUser(user.getId(),
-                    user.getLogin(),
-                    user.getAvatarUrl(),
-                    user.getReposUrl());
+            for (GithubUser user : githubUsers) {
+                RoomGithubUser roomUser = new RoomGithubUser(user.getId(),
+                        user.getLogin(),
+                        user.getAvatarUrl(),
+                        user.getReposUrl());
 
-            roomGithubUsers.add(roomUser);
-        }
+                roomGithubUsers.add(roomUser);
+            }
 
-        db.userDao().insert(roomGithubUsers);
-    }
-
-    public void subscribe(Observable<List<GithubUser>> obs) {
-        obs.subscribe((s) -> insertUsers(s), (e) -> Log.e(TAG, "Subscribe on error"));
+            db.userDao().insert(roomGithubUsers);
+        });
 
     }
 }

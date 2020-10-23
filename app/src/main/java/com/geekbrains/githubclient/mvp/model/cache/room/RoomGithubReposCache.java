@@ -1,7 +1,5 @@
 package com.geekbrains.githubclient.mvp.model.cache.room;
 
-import android.util.Log;
-
 import com.geekbrains.githubclient.mvp.model.cache.IGithubReposCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubRepo;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
@@ -11,7 +9,7 @@ import com.geekbrains.githubclient.mvp.model.entity.room.RoomGithubRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 public class RoomGithubReposCache implements IGithubReposCache {
@@ -43,23 +41,21 @@ public class RoomGithubReposCache implements IGithubReposCache {
     }
 
     @Override
-    public void insertUsers(List<GithubRepo> githubRepos) {
-        List<RoomGithubRepository> roomGithubRepos = new ArrayList<>();
+    public Completable insertUsers(List<GithubRepo> githubRepos) {
+        return Completable.fromAction(() -> {
+            List<RoomGithubRepository> roomGithubRepos = new ArrayList<>();
 
-        for (GithubRepo repo : githubRepos) {
-            RoomGithubRepository roomRepo = new RoomGithubRepository(repo.getId(),
-                    repo.getName(),
-                    repo.getForks(),
-                    repo.getOwner().getId());
+            for (GithubRepo repo : githubRepos) {
+                RoomGithubRepository roomRepo = new RoomGithubRepository(repo.getId(),
+                        repo.getName(),
+                        repo.getForks(),
+                        repo.getOwner().getId());
 
-            roomGithubRepos.add(roomRepo);
-        }
+                roomGithubRepos.add(roomRepo);
+            }
 
-        db.repositoryDao().insert(roomGithubRepos);
+            db.repositoryDao().insert(roomGithubRepos);
+        });
     }
 
-    @Override
-    public void subscribe(Observable<List<GithubRepo>> obs) {
-        obs.subscribe((s) -> insertUsers(s), (e) -> Log.e(TAG, "Subscribe on error"));
-    }
 }
