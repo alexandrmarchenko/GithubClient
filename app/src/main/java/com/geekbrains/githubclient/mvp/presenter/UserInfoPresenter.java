@@ -77,7 +77,7 @@ public class UserInfoPresenter extends MvpPresenter<UserInfoView> {
     }
 
     private void loadData() {
-        mUsersRepo.getRepos(mGithubUser.getReposUrl()).observeOn(mScheduler).subscribe(repos -> {
+        mUsersRepo.getRepos(mGithubUser).observeOn(mScheduler).subscribe(repos -> {
             mRepoListPresenter.mRepos.clear();
             mRepoListPresenter.mRepos.addAll(repos);
             getViewState().updateList();

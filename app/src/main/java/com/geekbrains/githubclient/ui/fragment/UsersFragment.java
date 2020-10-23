@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.R;
+import com.geekbrains.githubclient.mvp.model.cache.room.RoomGithubUsersCache;
 import com.geekbrains.githubclient.mvp.model.entity.room.Database;
 import com.geekbrains.githubclient.mvp.model.repo.IGithubUsersRepo;
 import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubUsersRepo;
@@ -42,7 +43,7 @@ public class UsersFragment extends MvpAppCompatFragment implements UsersView, Ba
     UsersPresenter provideUsersPresenter() {
         IGithubUsersRepo usersRepo = new RetrofitGithubUsersRepo((GithubApplication.INSTANCE).getApi(),
                 new AndroidNetworkStatus(),
-                Database.getInstance());
+                new RoomGithubUsersCache(Database.getInstance()));
         Router router = GithubApplication.INSTANCE.getRouter();
         return new UsersPresenter(AndroidSchedulers.mainThread(), usersRepo, router);
     }
