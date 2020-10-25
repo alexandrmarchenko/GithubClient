@@ -10,11 +10,12 @@ import com.geekbrains.githubclient.mvp.model.entity.room.dao.UserDao;
 @androidx.room.Database(entities = {RoomGithubUser.class, RoomGithubRepository.class}, version = 1)
 public abstract class Database extends RoomDatabase {
 
-    private static final String DB_NAME = "database.db";
+    public static final String DB_NAME = "database.db";
 
     private static volatile Database INSTANCE;
 
     public abstract UserDao userDao();
+
     public abstract RepositoryDao repositoryDao();
 
     public static Database getInstance() {
@@ -33,7 +34,6 @@ public abstract class Database extends RoomDatabase {
 
         return localRef;
     }
-
 
 
 }

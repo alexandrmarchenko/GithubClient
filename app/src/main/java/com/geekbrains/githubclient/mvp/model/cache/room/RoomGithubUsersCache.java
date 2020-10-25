@@ -1,6 +1,6 @@
 package com.geekbrains.githubclient.mvp.model.cache.room;
 
-import com.geekbrains.githubclient.mvp.model.cache.IGithubUsersRepoCache;
+import com.geekbrains.githubclient.mvp.model.cache.IGithubUsersCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.model.entity.room.Database;
 import com.geekbrains.githubclient.mvp.model.entity.room.RoomGithubUser;
@@ -11,7 +11,7 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
-public class RoomGithubUsersCache implements IGithubUsersRepoCache {
+public class RoomGithubUsersCache implements IGithubUsersCache {
     private static final String TAG = RoomGithubUsersCache.class.getSimpleName();
     private Database db;
 

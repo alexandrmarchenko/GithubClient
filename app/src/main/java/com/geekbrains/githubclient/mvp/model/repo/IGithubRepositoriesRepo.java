@@ -7,6 +7,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
 
-public interface IGithubRepos {
+public interface IGithubRepositoriesRepo {
     Single<List<GithubRepo>> getRepos(GithubUser githubUser);
 }

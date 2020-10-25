@@ -5,20 +5,20 @@ import com.geekbrains.githubclient.mvp.model.cache.IGithubReposCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubRepo;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
 import com.geekbrains.githubclient.mvp.model.network.INetworkStatus;
-import com.geekbrains.githubclient.mvp.model.repo.IGithubRepos;
+import com.geekbrains.githubclient.mvp.model.repo.IGithubRepositoriesRepo;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class RetrofitGithubRepos implements IGithubRepos {
+public class RetrofitGithubRepositoriesRepo implements IGithubRepositoriesRepo {
     IDataSource api;
     final INetworkStatus networkStatus;
     private final IGithubReposCache cache;
 
 
-    public RetrofitGithubRepos(IDataSource api, INetworkStatus status, IGithubReposCache cache) {
+    public RetrofitGithubRepositoriesRepo(IDataSource api, INetworkStatus status, IGithubReposCache cache) {
         this.api = api;
         this.networkStatus = status;
         this.cache = cache;

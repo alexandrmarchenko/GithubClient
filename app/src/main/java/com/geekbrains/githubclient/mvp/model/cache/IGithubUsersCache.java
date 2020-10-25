@@ -7,9 +7,8 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
-public interface IGithubUsersRepoCache {
+public interface IGithubUsersCache {
     Single<List<GithubUser>> getUsers();
 
     Completable insertUsers(List<GithubUser> githubUsers);
-
 }
