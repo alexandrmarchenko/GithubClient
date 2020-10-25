@@ -12,7 +12,7 @@ import ru.terrakok.cicerone.Router;
 
 public class RepoInfoPresenter extends MvpPresenter<RepoInfoView> {
 
-    private GithubRepo githubRepo;
+    private final GithubRepo githubRepo;
 
     @Inject
     Router router;

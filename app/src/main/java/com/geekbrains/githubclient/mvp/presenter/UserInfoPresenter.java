@@ -25,7 +25,7 @@ public class UserInfoPresenter extends MvpPresenter<UserInfoView> {
 
     private static final boolean VERBOSE = true;
 
-    private GithubUser githubUser;
+    private final GithubUser githubUser;
 
     @Inject
     IGithubRepositoriesRepo githubRepositoriesRepo;
