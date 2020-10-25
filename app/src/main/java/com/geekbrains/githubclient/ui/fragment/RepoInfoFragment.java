@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.databinding.FragmentRepoInfoBinding;
 import com.geekbrains.githubclient.mvp.model.entity.GithubRepo;
 import com.geekbrains.githubclient.mvp.presenter.RepoInfoPresenter;
@@ -15,7 +14,6 @@ import com.geekbrains.githubclient.ui.BackButtonListener;
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
-import ru.terrakok.cicerone.Router;
 
 public class RepoInfoFragment extends MvpAppCompatFragment implements RepoInfoView, BackButtonListener {
 
@@ -31,10 +29,9 @@ public class RepoInfoFragment extends MvpAppCompatFragment implements RepoInfoVi
 
     @ProvidePresenter
     RepoInfoPresenter provideRepoInfoPresenter() {
-        GithubRepo mGithubRepo = getArguments().getParcelable(ARG_PARAM1);
-        Router router = GithubApplication.INSTANCE.getRouter();
+        GithubRepo githubRepo = getArguments().getParcelable(ARG_PARAM1);
 
-        return new RepoInfoPresenter(mGithubRepo, router);
+        return new RepoInfoPresenter(githubRepo);
     }
 
     public static RepoInfoFragment newInstance(GithubRepo githubRepo) {

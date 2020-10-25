@@ -10,25 +10,17 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.R;
 import com.geekbrains.githubclient.databinding.FragmentUserInfoBinding;
-import com.geekbrains.githubclient.mvp.model.cache.room.RoomGithubReposCache;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
-import com.geekbrains.githubclient.mvp.model.entity.room.Database;
-import com.geekbrains.githubclient.mvp.model.repo.IGithubRepos;
-import com.geekbrains.githubclient.mvp.model.repo.retrofit.RetrofitGithubRepos;
 import com.geekbrains.githubclient.mvp.presenter.UserInfoPresenter;
 import com.geekbrains.githubclient.mvp.view.UserInfoView;
 import com.geekbrains.githubclient.ui.BackButtonListener;
 import com.geekbrains.githubclient.ui.adapter.RepoRVAdapter;
-import com.geekbrains.githubclient.ui.network.AndroidNetworkStatus;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
-import ru.terrakok.cicerone.Router;
 
 public class UserInfoFragment extends MvpAppCompatFragment implements UserInfoView, BackButtonListener {
 
@@ -49,13 +41,9 @@ public class UserInfoFragment extends MvpAppCompatFragment implements UserInfoVi
 
     @ProvidePresenter
     UserInfoPresenter provideUserInfoPresenter() {
-        GithubUser mGithubUser = getArguments().getParcelable(ARG_PARAM1);
-        Router router = GithubApplication.INSTANCE.getRouter();
-        IGithubRepos userRepos = new RetrofitGithubRepos((GithubApplication.INSTANCE).getApi(),
-                new AndroidNetworkStatus(),
-                new RoomGithubReposCache(Database.getInstance()));
+        GithubUser githubUser = getArguments().getParcelable(ARG_PARAM1);
 
-        return new UserInfoPresenter(mGithubUser, router, userRepos, AndroidSchedulers.mainThread());
+        return new UserInfoPresenter(githubUser);
     }
 
     public static UserInfoFragment newInstance(GithubUser githubUser) {
