@@ -9,6 +9,8 @@ import com.geekbrains.githubclient.R;
 import com.geekbrains.githubclient.mvp.presenter.MainPresenter;
 import com.geekbrains.githubclient.mvp.view.MainView;
 
+import javax.inject.Inject;
+
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import moxy.presenter.ProvidePresenter;
@@ -19,36 +21,39 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
 
-    private NavigatorHolder mNavigatorHolder = GithubApplication.INSTANCE.getNavigatorHolder();
     Navigator mNavigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.container);
 
+    @Inject
+    NavigatorHolder navigatorHolder;
+
     @InjectPresenter
-    MainPresenter mPresenter;
+    MainPresenter presenter;
 
     @ProvidePresenter
     MainPresenter provideMainPresenter() {
-        Router router = ((GithubApplication) GithubApplication.getAppContext()).getRouter();
 
-        return new MainPresenter(router);
+        return new MainPresenter();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GithubApplication.INSTANCE.getAppComponent().inject(this);
     }
 
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        mNavigatorHolder.setNavigator(mNavigator);
+        navigatorHolder.setNavigator(mNavigator);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        mNavigatorHolder.removeNavigator();
+        navigatorHolder.removeNavigator();
     }
 
     @Override
@@ -59,6 +64,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
             }
         }
 
-        mPresenter.backClicked();
+        presenter.backClicked();
     }
 }

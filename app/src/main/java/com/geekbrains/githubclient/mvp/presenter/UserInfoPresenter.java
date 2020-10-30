@@ -2,9 +2,10 @@ package com.geekbrains.githubclient.mvp.presenter;
 
 import android.util.Log;
 
+import com.geekbrains.githubclient.GithubApplication;
 import com.geekbrains.githubclient.mvp.model.entity.GithubRepo;
 import com.geekbrains.githubclient.mvp.model.entity.GithubUser;
-import com.geekbrains.githubclient.mvp.model.repo.IGithubRepos;
+import com.geekbrains.githubclient.mvp.model.repo.IGithubRepositoriesRepo;
 import com.geekbrains.githubclient.mvp.presenter.list.IRepoListPresenter;
 import com.geekbrains.githubclient.mvp.view.RepoItemView;
 import com.geekbrains.githubclient.mvp.view.UserInfoView;
@@ -12,6 +13,8 @@ import com.geekbrains.githubclient.navigation.Screens;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Scheduler;
 import moxy.MvpPresenter;
@@ -22,19 +25,21 @@ public class UserInfoPresenter extends MvpPresenter<UserInfoView> {
 
     private static final boolean VERBOSE = true;
 
-    private final Router mRouter;
-    private GithubUser mGithubUser;
-    private final IGithubRepos mUsersRepo;
-    private final Scheduler mScheduler;
+    private final GithubUser githubUser;
 
-    public UserInfoPresenter(GithubUser githubUser, Router router, IGithubRepos usersRepo, Scheduler scheduler) {
-        mGithubUser = githubUser;
-        mRouter = router;
-        mUsersRepo = usersRepo;
-        mScheduler = scheduler;
+    @Inject
+    IGithubRepositoriesRepo githubRepositoriesRepo;
+    @Inject
+    Router router;
+    @Inject
+    Scheduler scheduler;
+
+    public UserInfoPresenter(GithubUser githubUser) {
+        this.githubUser = githubUser;
+        GithubApplication.INSTANCE.getAppComponent().inject(this);
     }
 
-    private class ReposListPresenter implements IRepoListPresenter {
+    public class ReposListPresenter implements IRepoListPresenter {
         private List<GithubRepo> mRepos = new ArrayList<>();
 
         @Override
@@ -43,7 +48,7 @@ public class UserInfoPresenter extends MvpPresenter<UserInfoView> {
                 Log.v(TAG, " onItemClick " + view.getPos());
             }
             GithubRepo repo = mRepos.get(view.getPos());
-            mRouter.navigateTo(new Screens.RepoInfoScreen(repo));
+            router.navigateTo(new Screens.RepoInfoScreen(repo));
         }
 
         @Override
@@ -65,19 +70,19 @@ public class UserInfoPresenter extends MvpPresenter<UserInfoView> {
     }
 
     public boolean backPressed() {
-        mRouter.backTo(new Screens.UsersScreen());
+        router.backTo(new Screens.UsersScreen());
         return true;
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        getViewState().init(mGithubUser);
+        getViewState().init(githubUser);
         loadData();
     }
 
     private void loadData() {
-        mUsersRepo.getRepos(mGithubUser).observeOn(mScheduler).subscribe(repos -> {
+        githubRepositoriesRepo.getRepos(githubUser).observeOn(scheduler).subscribe(repos -> {
             mRepoListPresenter.mRepos.clear();
             mRepoListPresenter.mRepos.addAll(repos);
             getViewState().updateList();

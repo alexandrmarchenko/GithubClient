@@ -3,46 +3,30 @@ package com.geekbrains.githubclient;
 import android.app.Application;
 import android.content.Context;
 
-import com.geekbrains.githubclient.mvp.model.api.IDataSource;
-
-import ru.terrakok.cicerone.Cicerone;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
+import com.geekbrains.githubclient.di.AppComponent;
+import com.geekbrains.githubclient.di.DaggerAppComponent;
+import com.geekbrains.githubclient.di.module.AppModule;
 
 public class GithubApplication extends Application {
     public static final boolean DEBUG = true;
     public static GithubApplication INSTANCE;
-    private Cicerone<Router> mCicerone;
 
-    private ApiHolder mApiHolder;
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
 
-        initCicerone();
-        mApiHolder = new ApiHolder();
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
     }
 
     public static Context getAppContext() {
         return INSTANCE;
     }
 
-    private void initCicerone() {
-        mCicerone = Cicerone.create();
-    }
-
-    public NavigatorHolder getNavigatorHolder() {
-        return mCicerone.getNavigatorHolder();
-    }
-
-    public Router getRouter() {
-        return mCicerone.getRouter();
-    }
-
-    public IDataSource getApi() {
-        return mApiHolder.getDataSource();
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
 }
